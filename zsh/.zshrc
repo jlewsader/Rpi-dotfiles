@@ -1,4 +1,44 @@
-# If you come from bash you might have to change your $PATH.
+# ------------------------------
+# Zsh basic settings
+# ------------------------------
+
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+plugins=(git tmux docker)
+
+source $ZSH/oh-my-zsh.sh
+
+# ------------------------------
+# History
+# ------------------------------
+
+HISTSIZE=10000
+SAVEHIST=10000
+setopt inc_append_history
+setopt share_history
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
+
+# ------------------------------
+# Key behavior
+# ------------------------------
+
+bindkey -e            # Emacs-style keys
+setopt auto_cd        # cd without typing cd
+setopt correct        # command correction
+setopt interactive_comments
+
+# ------------------------------
+# Environment
+# ------------------------------
+
+export EDITOR=nvim
+export VISUAL=nvim
+export PAGER=less
+
+# ------------------------------
+# Aliases
+# ------------------------------# If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
@@ -99,6 +139,36 @@ source $ZSH/oh-my-zsh.sh
 # - $ZSH_CUSTOM/macos.zsh
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# aliases
+alias zshconfig="nvim ~/.zshrc"
+alias ohmyzsh="nvim ~/.oh-my-zsh"
+
+# General
+alias ll='ls -lah'
+alias cls='clear'
+alias reload='source ~/.zshrc'
+
+# Safer commands
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Git
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git log --oneline --graph --decorate'
+
+# tmux
+alias ta='tmux attach -t dev'
+alias tn='tmux new -s dev'
+
+# Docker
+alias d='docker'
+alias dc='docker compose'
+alias dcu='docker compose up'
+alias dcd='docker compose down'
+
+# Power (important for iPad-powered Pi)
+alias off='sudo poweroff'
