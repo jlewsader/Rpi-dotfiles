@@ -9,6 +9,26 @@ plugins=(git tmux docker zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 # ------------------------------
+# Auto-start tmux
+# ------------------------------
+
+# Only start tmux for interactive shells
+if [[ -o interactive ]]; then
+  # If not already inside tmux
+  if [[ -z "$TMUX" ]]; then
+    # Use a consistent default session name
+    SESSION_NAME="main"
+
+    # Check if the session exists
+    if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+      exec tmux attach -t "$SESSION_NAME"
+    else
+      exec tmux new -s "$SESSION_NAME"
+    fi
+  fi
+fi
+
+# ------------------------------
 # History
 # ------------------------------
 
@@ -161,8 +181,11 @@ alias gp='git push'
 alias gl='git log --oneline --graph --decorate'
 
 # tmux
-alias ta='tmux attach -t dev'
-alias tn='tmux new -s dev'
+alias ta='tmux attach -t main'
+alias tn='tmux new -s main'
+alias t='tmux'
+alias tls='tmux list-sessions'
+alias tk='tmux kill-session -t main'
 
 # Docker
 alias d='docker'
