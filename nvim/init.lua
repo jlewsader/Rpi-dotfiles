@@ -262,6 +262,12 @@ require("lazy").setup({
       })
     end,
   },
+
+  -- Tmux navigator
+  {
+  "christoomey/vim-tmux-navigator",
+  lazy = false,
+},
 })
 
 -- ==============================
