@@ -1,3 +1,4 @@
+export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # ------------------------------
@@ -11,22 +12,18 @@ plugins=(git tmux docker zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 # ------------------------------
-# Auto-start tmux
+# Auto-start tmux (SSH only)
 # ------------------------------
 
-# Only start tmux for interactive shells
-if [[ -o interactive ]]; then
-  # If not already inside tmux
-  if [[ -z "$TMUX" ]]; then
-    # Use a consistent default session name
-    SESSION_NAME="main"
+# Start tmux only for interactive shells
+# AND only when not inside an X session
+if [[ -o interactive ]] && [[ -z "$TMUX" ]] && [[ -z "$DISPLAY" ]]; then
+  SESSION_NAME="main"
 
-    # Check if the session exists
-    if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
-      exec tmux attach -t "$SESSION_NAME"
-    else
-      exec tmux new -s "$SESSION_NAME"
-    fi
+  if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+    exec tmux attach -t "$SESSION_NAME"
+  else
+    exec tmux new -s "$SESSION_NAME"
   fi
 fi
 
