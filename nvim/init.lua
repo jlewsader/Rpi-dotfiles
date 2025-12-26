@@ -60,11 +60,6 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 -- Neotree
 -- vim.keymap.set("n", "<C-n>", ":Neotree filesystem toggle left<CR>")
 
--- Telescope
-keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
-keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
-keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>")
-
 -- LSP
 keymap("n", "gd", vim.lsp.buf.definition)
 keymap("n", "K", vim.lsp.buf.hover)
@@ -97,15 +92,56 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 
   -- Telescope
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("telescope").setup({})
-    end,
+{
+  "nvim-telescope/telescope.nvim",
+  dependencies = { "nvim-lua/plenary.nvim" },
+  cmd = "Telescope", -- lazy-load on command
+  keys = {
+    { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
+    { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
+    { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+    { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
+    { "<leader>gf", "<cmd>Telescope git_files<cr>", desc = "Git files" },
+    { "<leader>gs", "<cmd>Telescope git_status<cr>", desc = "Git status" },
   },
+  config = function()
+    local telescope = require("telescope")
+    local actions = require("telescope.actions")
 
-  -- Treesitter
+    telescope.setup({
+      defaults = {
+        prompt_prefix = " ",
+        selection_caret = "❯ ",
+        path_display = { "truncate" },
+
+        mappings = {
+          i = {
+            ["<C-j>"] = actions.move_selection_next,
+            ["<C-k>"] = actions.move_selection_previous,
+            ["<C-q>"] = actions.send_to_qflist,
+          },
+        },
+
+        file_ignore_patterns = {
+          "node_modules",
+          ".git/",
+          "dist",
+          "build",
+          ".cache",
+          "__pycache__",
+        },
+      },
+
+      pickers = {
+        find_files = {
+          hidden = true,
+        },
+      },
+    })
+  end,
+},
+
+-- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
