@@ -1,5 +1,9 @@
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$PATH:$HOME/.local/share/gem/ruby/$(ruby -e 'puts RUBY_VERSION.split(".").take(2).join(".")')/bin"
+# Or for older versions/different setups:
+# export PATH="$PATH:$HOME/.gem/ruby/2.x.x/bin"
+
 
 # ------------------------------
 # Zsh basic settings
@@ -163,9 +167,14 @@ alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 
 # General
-alias ll='ls -lah'
-alias cls='clear'
+alias cl='clear'
 alias reload='source ~/.zshrc'
+
+# ColorLS
+alias ls='colorls -1'
+alias la='colorls --almost-all -1'
+alias lt='colorls -A --tree=2'
+alias lgs='colorls --gs'
 
 # Safer commands
 alias rm='rm -i'
