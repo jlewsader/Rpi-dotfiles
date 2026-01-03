@@ -2,11 +2,14 @@
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias aliases="nvim ~/.oh-my-zsh/custom/aliases.zsh"
+alias cl='clear'
+alias reload='source ~/.zshrc'
+
+# Nvim
 alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
-alias cl='clear'
-alias reload='source ~/.zshrc'
+alias vdiff='nvim -d'
 
 # ColorLS
 alias ls='colorls -1'
@@ -25,6 +28,8 @@ alias ga='git add'
 alias gc='git commit'
 alias gp='git push'
 alias gl='git log --all --oneline --graph --decorate'
+alias gh='git log --pretty=format:"[%h] %ae, %ar: %s" --stat'
+alias gd='git difftool'
 
 # tmux
 alias ta='tmux attach -t main'
