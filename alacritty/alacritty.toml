@@ -1,0 +1,11 @@
+live_config_reload = true
+
+[window]
+decorations = "none"
+dynamic_padding = false
+
+[window.padding]
+x = 25
+y = 20
+
+general.import = ["dracula.toml"]
