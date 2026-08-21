@@ -4,6 +4,11 @@
 
 echo "Starting dotfiles installation..."
 
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$DOTFILES_DIR"
+
 # ------------------------------------------------------------------------------
 # Install dependencies
 # ------------------------------------------------------------------------------
@@ -32,6 +37,17 @@ echo "Installing dependencies..."
 
 # The alacritty and nvim configs use the JetBrainsMono Nerd Font.
 # You can download it from the Nerd Fonts website: https://www.nerdfonts.com/
+
+if command -v apt-get &> /dev/null; then
+    sudo apt-get update
+    sudo apt-get install -y stow git curl tmux neovim zsh lazygit alacritty
+elif command -v dnf &> /dev/null; then
+    sudo dnf install -y stow git curl tmux neovim zsh lazygit alacritty
+elif command -v pacman &> /dev/null; then
+    sudo pacman -S --needed --noconfirm stow git curl tmux neovim zsh lazygit alacritty
+elif command -v brew &> /dev/null; then
+    brew install stow git curl tmux neovim zsh lazygit alacritty
+fi
 
 echo "Dependencies installed."
 
@@ -77,13 +93,13 @@ echo "Symlinking dotfiles..."
 # Use stow to create symlinks in the home directory.
 # The --adopt flag is used to prevent stow from overwriting existing files that
 # are not part of the dotfiles repository.
-#stow --adopt alacritty
-#stow --adopt colorls
-#stow --adopt lazygit
-#stow --adopt nvim
-#stow --adopt tmux
-#stow --adopt yazi
-#stow --adopt zsh
+stow -R -t alacritty
+stow -R -t colorls
+stow -R -t lazygit
+stow -R -t nvim
+stow -R -t tmux
+stow -R -t yazi
+stow -R -t zsh
 echo "Dotfiles symlinked."
 
 # ------------------------------------------------------------------------------
